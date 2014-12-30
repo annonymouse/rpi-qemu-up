@@ -1,0 +1,38 @@
+#!/bin/sh
+
+function usage {
+    echo "$0 [ fetch | build | up ]"
+}
+if [ $# -ne 1 ] ; then
+    usage
+    exit 2
+fi
+
+set -e
+cmd=$1
+case $cmd in
+    "fetch")
+        raspbian_zip=2014-12-24-wheezy-raspbian.zip
+        raspbian_url=http://downloads.raspberrypi.org/raspbian/images/raspbian-2014-12-25/$raspbian_filename
+        qemu_kernel=http://xecdesign.com/downloads/linux-qemu/kernel-qemu
+        pushd resources
+        wget $qemu_kernel -O qemu-kernel
+        # If the checksum fails for whatever reason, just get another file
+        shasum -a 1 -c $raspbian_zip.sha1 || wget $raspbian_url -O $raspbian_zip
+        shasum -a 1 -c $raspbian_zip.sha1
+        unzip $raspbian_zip
+        popd
+        ;;
+    "build")
+        cp resources/*-wheezy-raspbian.img raspbian.img
+        # Add 4 GB to end of file
+        dd if=/dev/zero bs=4m count=1024 >> raspbian.img
+        ./raspbian-qemu-expect
+        ;;
+    "up")
+        qemu-system-arm -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw console=ttyAMA0 console=ttyS0" -kernel resources/kernel-qemu -hda raspbian.img
+        ;;
+    *)
+        usage
+        ;;
+esac

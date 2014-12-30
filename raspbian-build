@@ -1,8 +1,0 @@
-#!/bin/sh
-set -e
-cp resources/*-wheezy-raspbian.img raspbian.img
-# Add 4 GB to end of file
-dd if=/dev/zero bs=4m count=1024 >> raspbian.img
-
-./raspbian-qemu-expect
-

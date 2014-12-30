@@ -25,15 +25,15 @@ Usage
 
 To initially grab a new(ish) raspbian image, run
 
-    ./raspbian-fetch
+    ./raspbianemu fetch
 
 then to provision a system
 
-    ./raspbian-build
+    ./raspbianemu build
 
 and finally to use it
 
-    ./raspbian-up
+    ./raspbianemu up
 
 Installing QEMU on OSX
 ======================
