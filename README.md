@@ -25,11 +25,11 @@ Usage
 
 To initially grab a new(ish) raspbian image, run
 
-    ./raspbian-download
+    ./raspbian-fetch
 
 then to provision a system
 
-    ./make-raspbian.exp
+    ./raspbian-build
 
 and finally to use it
 
