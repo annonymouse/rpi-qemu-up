@@ -7,8 +7,8 @@ http://xecdesign.com/qemu-emulating-raspberry-pi-the-easy-way/
 
 but I got sick of typing it every time.
 
-Why not packer?
-===============
+Why not packer.io?
+==================
 
 Can we packer this?  The QEMU builder in packer could do the job, but I couldn't
 figure out a way to hook into the packer process, and it's not really for this
