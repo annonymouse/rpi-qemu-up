@@ -1,5 +1,5 @@
 #!/bin/sh
 set -e
 
-qemu-system-arm -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw console=ttyAMA0 console=ttyS0" -kernel resources/kernel-qemu -hda resources/raspbian.img
+qemu-system-arm -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw console=ttyAMA0 console=ttyS0" -kernel resources/kernel-qemu -hda raspbian.img
 
