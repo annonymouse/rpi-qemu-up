@@ -1,18 +1,17 @@
 #!/bin/sh
 set -e
 
-raspbian_filename=2014-12-24-wheezy-raspbian.zip
-raspbian_zip=http://downloads.raspberrypi.org/raspbian/images/raspbian-2014-12-25/$raspbian_filename
+raspbian_zip=2014-12-24-wheezy-raspbian.zip
+raspbian_url=http://downloads.raspberrypi.org/raspbian/images/raspbian-2014-12-25/$raspbian_filename
 qemu_kernel=http://xecdesign.com/downloads/linux-qemu/kernel-qemu
-sha_file=resources/$raspbian_filename.sha1
 
 pushd resources
 
 wget $qemu_kernel -O qemu-kernel
 # If the checksum fails for whatever reason, just get another file
-sha1sum -a 1 -c $raspbian_filename.sha1 || wget $raspbian_zip -O $raspbian_filename.zip
-sha1sum -a 1 -c $raspbian_filename.sha1
-unzip raspbian.zip
+shasum -a 1 -c $raspbian_zip.sha1 || wget $raspbian_url -O $raspbian_zip
+shasum -a 1 -c $raspbian_zip.sha1
+unzip $raspbian_zip
 
 popd
 
