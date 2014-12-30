@@ -1,8 +1,8 @@
 {
     "builders": [ {
         "type": "qemu",
-            "iso_url": "http://downloads.raspberrypi.org/raspbian/images/raspbian-2014-12-25/2014-12-24-wheezy-raspbian.zip",
-            "iso_checksum": "2371141bb0560f7e46543ed1bc939933577a9b18",
+            "iso_url": "resources/raspbian.qcow2",
+            "iso_checksum": "c514a142e5203ad94e1e41a9fceee7bbc9c282f3",
             "iso_checksum_type": "sha1",
             "ssh_wait_timeout": "30s",
             "shutdown_command": "shutdown -P now",
@@ -26,7 +26,7 @@
                 ["-m", "256"],
                 ["-no-reboot"],
                 ["-serial", "stdio"],
-                ["-kernel", "kernel-qemu"],
+                ["-kernel", "resources/kernel-qemu"],
                 ["-append", "'root=/dev/sda2 panic=1 rootfstype=ext4 rw init=/bin/bash'"]
 
             ],
