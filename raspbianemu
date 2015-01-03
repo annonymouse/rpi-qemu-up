@@ -1,5 +1,5 @@
 #!/bin/sh
-
+set -e
 function usage {
     echo "$0 [ fetch | build | up ]"
 }
@@ -29,11 +29,10 @@ function build {
 }
 
 function up {
-    qemu-system-arm -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw console=ttyAMA0 console=ttyS0" -kernel resources/kernel-qemu -hda raspbian.img
+    qemu-system-arm -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw console=ttyAMA0 console=ttyS0" -kernel resources/kernel-qemu -hda raspbian.img -net user,hostfwd=tcp::10022-:22 -net nic
  
 }
 
-set -e
 cmd=$1
 case $cmd in
     "fetch")
