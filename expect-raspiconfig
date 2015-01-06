@@ -1,0 +1,26 @@
+#!/usr/bin/expect -f
+# Kill the existing qemu session, relaunch so we can resize the disk using
+# raspi-config
+
+set timeout -1
+spawn qemu-system-arm -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw console=ttyAMA0 console=ttyS0" -kernel resources/kernel-qemu -hda raspbian.img
+expect "login:"
+send "pi\r"
+expect "Password"
+send "raspberry\r"
+expect "pi@raspberrypi"
+send "pushd /dev/\rsudo su\r"
+expect "root@raspberrypi"
+send "unlink /dev/root;ln -s mmcblk0p2 /dev/root;raspi-config --expand-rootfs\r"
+expect "root@raspberrypi"
+send "halt\r"
+#expect "Restarting system"
+#expect "login:"
+#send "pi\r"
+#expect "Password"
+#send "raspberry\r"
+#expect "pi@raspberrypi"
+#send "sudo halt"
+expect "System halted."
+sleep 10
+

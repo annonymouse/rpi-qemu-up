@@ -1,5 +1,5 @@
 #!/usr/bin/expect -f
-
+set timeout -1
 spawn qemu-system-arm -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -append "root=/dev/sda2 panic=1 rootfstype=ext4 rw init=/bin/bash console=ttyAMA0 console=ttyS0" -kernel resources/kernel-qemu -hda raspbian.img
 
 expect "root@(none):/#"
@@ -9,8 +9,13 @@ send "echo 'KERNEL==\"sda\", SYMLINK+=\"mmcblk0\"' > /etc/udev/rules.d/90-qemu.r
 expect "root@(none):/#"
 send "echo 'KERNEL==\"sda?\", SYMLINK+=\"mmcblk0p%n\"' >> /etc/udev/rules.d/90-qemu.rules\n"
 expect "root@(none):/#"
-send "echo 'KERNEL==\"sda2\", SYMLINK+=\"root\"' >> /etc/udev/rules.d/90-qemu.rules\n"
+send "echo 'KERNEL==\"mmcblk0p2\", SYMLINK+=\"root\"' >> /etc/udev/rules.d/90-qemu.rules\n"
 expect "root@(none):/#"
-send "sync"
-send "echo ----DONE----\n"
-sleep 10
+# At this point we need to reboot to do raspi-config
+# This doesn't do anything, but for old times sake ;)
+send "sync; sync; sync\r"
+# We didn't run with upstart/etc, so have to hard poweroff
+send "poweroff -f\r"
+expect "System halted."
+sleep 2
+
