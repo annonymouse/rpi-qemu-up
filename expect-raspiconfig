@@ -13,6 +13,10 @@ send "pushd /dev/\rsudo su\r"
 expect "root@raspberrypi"
 send "unlink /dev/root;ln -s mmcblk0p2 /dev/root;raspi-config --expand-rootfs\r"
 expect "root@raspberrypi"
+# Enable SSH
+send "update-rc.d ssh enable\r"
+expect "root@raspberrypi"
+# Shutdown system
 send "halt\r"
 #expect "Restarting system"
 #expect "login:"
