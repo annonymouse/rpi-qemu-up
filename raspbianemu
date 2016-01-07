@@ -10,14 +10,10 @@ fi
 
 function fetch {
     raspbian_zip=2014-12-24-wheezy-raspbian.zip
-    raspbian_url=http://downloads.raspberrypi.org/raspbian/images/raspbian-2014-12-25/$raspbian_filename
-    qemu_kernel=http://xecdesign.com/downloads/linux-qemu/kernel-qemu
+    raspbian_url=http://downloads.raspberrypi.org/raspbian/images/raspbian-2014-12-25/2014-12-24-wheezy-raspbian.zip
+    qemu_kernel=https://raw.githubusercontent.com/dhruvvyas90/qemu-rpi-kernel/master/kernel-qemu-3.10.25-wheezy
     pushd resources
-    wget $qemu_kernel -O qemu-kernel
-    # If the checksum fails for whatever reason, just get another file
-    shasum -a 1 -c $raspbian_zip.sha1 || wget $raspbian_url -O $raspbian_zip
-    shasum -a 1 -c $raspbian_zip.sha1
-    unzip $raspbian_zip
+    wget $qemu_kernel -O kernel-qemu
     popd
 }
 
@@ -26,7 +22,7 @@ function build {
     cp resources/*-wheezy-raspbian.img raspbian.img
     # Add 4 GB to end of file
     echo "Growing source image by 4GB"
-    dd if=/dev/zero bs=4m count=1024 >> raspbian.img
+    dd if=/dev/zero bs=4096 count=1024 >> raspbian.img
     echo "Building image"
     ./raspbian-qemu-expect
     ./expect-raspiconfig
